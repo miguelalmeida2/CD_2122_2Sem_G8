@@ -3,7 +3,8 @@
 
 int count_ones( int val ){
     int cnt = 0;
-    for (int i = 0; i < sizeof(int); i++){
+    // Hardcoded sizeof int due to bug in memory 
+    for (int i = 0; i < 32; i++){
         if(val & 0x1){
             cnt++;
         }
@@ -22,5 +23,4 @@ int main(){
     sut = 1152;
     res = count_ones(sut);
     printf("nBits = %d\n", res);
-
 }
