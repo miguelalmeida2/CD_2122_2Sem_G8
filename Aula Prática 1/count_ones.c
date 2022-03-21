@@ -1,5 +1,5 @@
-include <stdio.h>
-include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int count_ones( int val ){
     int cnt = 0;
@@ -15,12 +15,12 @@ int count_ones( int val ){
 int main(){
     int sut = 10;
     int res = count_ones(sut);
-    printf("nBits = %d", res);
+    printf("nBits = %d\n", res);
     sut = 32;
     res = count_ones(sut);
-    printf("nBits = %d", res);
+    printf("nBits = %d\n", res);
     sut = 1152;
     res = count_ones(sut);
-    printf("nBits = %d", res);
+    printf("nBits = %d\n", res);
 
 }
