@@ -40,3 +40,5 @@ def most_occurrences(file_name):
 
 
 most_occurrences("test")
+fibonacci(25)
+progression(10, 10, 5)
