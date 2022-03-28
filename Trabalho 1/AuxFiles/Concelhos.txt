@@ -1,0 +1,307 @@
+Abrantes
+Águeda
+Aguiar Da Beira
+Alandroal
+Albergaria-A-Velha
+Albufeira
+Alcácer Do Sal
+Alcanena
+Alcobaça
+Alcochete
+Alcoutim
+Alenquer
+Alfândega Da Fé
+Alijó
+Aljezur
+Aljustrel
+Almada
+Almeida
+Almeirim
+Almodôvar
+Alpiarça
+Alter Do Chão
+Alvaiázere
+Alvito
+Amadora
+Amarante
+Amares
+Anadia
+Angra Do Heroísmo
+Ansião
+Arcos De Valdevez
+Arganil
+Armamar
+Arouca
+Arraiolos
+Arronches
+Arruda Dos Vinhos
+Aveiro
+Avis
+Azambuja
+Baião
+Barcelos
+Barrancos
+Barreiro
+Batalha
+Beja
+Belmonte
+Benavente
+Bombarral
+Borba
+Boticas
+Braga
+Bragança
+Cabeceiras De Basto
+Cadaval
+Caldas Da Rainha
+Calheta
+Calheta De São Jorge
+Camara De Lobos
+Caminha
+Campo Maior
+Cantanhede
+Carrazeda De Ansiães
+Carregal Do Sal
+Cartaxo
+Cascais
+Castanheira De Pêra
+Castelo Branco
+Castelo De Paiva
+Castelo De Vide
+Castro Daire
+Castro Marim
+Castro Verde
+Celorico Da Beira
+Celorico De Basto
+Chamusca
+Chaves
+Cinfães
+Coimbra
+Condeixa-A-Nova
+Constância
+Coruche
+Corvo
+Covilhã
+Crato
+Cuba
+Elvas
+Entroncamento
+Espinho
+Esposende
+Estarreja
+Estremoz
+Évora
+Fafe
+Faro
+Felgueiras
+Ferreira Do Alentejo
+Ferreira Do Zêzere
+Figueira Da Foz
+Figueira De Castelo Rodrigo
+Figueiró Dos Vinhos
+Fornos De Algodres
+Freixo De Espada À Cinta
+Fronteira
+Funchal
+Fundão
+Gavião
+Góis
+Golegã
+Gondomar
+Gouveia
+Grândola
+Guarda
+Guimarães
+Horta
+Idanha-A-Nova
+Ílhavo
+Lagoa
+Lagos
+Lajes Das Flores
+Lajes Do Pico
+Lamego
+Leiria
+Lisboa
+Loulé
+Loures
+Lourinhã
+Lousã
+Lousada
+Mação
+Macedo De Cavaleiros
+Machico
+Madalena
+Mafra
+Maia
+Mangualde
+Manteigas
+Marco De Canaveses
+Marinha Grande
+Marvão
+Matosinhos
+Mealhada
+Mêda
+Melgaço
+Mértola
+Mesão Frio
+Mira
+Miranda Do Corvo
+Miranda Do Douro
+Mirandela
+Mogadouro
+Moimenta Da Beira
+Moita
+Monção
+Monchique
+Mondim De Basto
+Monforte
+Montalegre
+Montemor-O-Novo
+Montemor-O-Velho
+Montijo
+Mora
+Mortágua
+Moura
+Mourão
+Murça
+Murtosa
+Nazaré
+Nelas
+Nisa
+Nordeste
+Óbidos
+Odemira
+Odivelas
+Oeiras
+Oleiros
+Olhão
+Oliveira De Azeméis
+Oliveira De Frades
+Oliveira Do Bairro
+Oliveira Do Hospital
+Ourém
+Ourique
+Ovar
+Paços De Ferreira
+Palmela
+Pampilhosa Da Serra
+Paredes
+Paredes De Coura
+Pedrógão Grande
+Penacova
+Penafiel
+Penalva Do Castelo
+Penamacor
+Penedono
+Penela
+Peniche
+Peso Da Régua
+Pinhel
+Pombal
+Ponta Delgada
+Ponta Do Sol
+Ponte Da Barca
+Ponte De Lima
+Ponte De Sor
+Portalegre
+Portel
+Portimão
+Porto
+Porto De Mós
+Porto Moniz
+Porto Santo
+Póvoa De Lanhoso
+Póvoa De Varzim
+Povoação
+Praia Da Vitória
+Proença-A-Nova
+Redondo
+Reguengos De Monsaraz
+Resende
+Ribeira Brava
+Ribeira De Pena
+Ribeira Grande
+Rio Maior
+Sabrosa
+Sabugal
+Salvaterra De Magos
+Santa Comba Dão
+Santa Cruz
+Santa Cruz Da Graciosa
+Santa Cruz Das Flores
+Santa Maria Da Feira
+Santa Marta De Penaguião
+Santana
+Santarém
+Santiago Do Cacém
+Santo Tirso
+São Brás De Alportel
+São João Da Madeira
+São João Da Pesqueira
+São Pedro Do Sul
+São Roque Do Pico
+São Vicente
+Sardoal
+Sátão
+Seia
+Seixal
+Sernancelhe
+Serpa
+Sertã
+Sesimbra
+Setúbal
+Sever Do Vouga
+Silves
+Sines
+Sintra
+Sobral De Monte Agraço
+Soure
+Sousel
+Tábua
+Tabuaço
+Tarouca
+Tavira
+Terras De Bouro
+Tomar
+Tondela
+Torre De Moncorvo
+Torres Novas
+Torres Vedras
+Trancoso
+Trofa
+Vagos
+Vale De Cambra
+Valença
+Valongo
+Valpaços
+Velas
+Vendas Novas
+Viana Do Alentejo
+Viana Do Castelo
+Vidigueira
+Vieira Do Minho
+Vila De Rei
+Vila Do Bispo
+Vila Do Conde
+Vila Do Porto
+Vila Flor
+Vila Franca De Xira
+Vila Franca Do Campo
+Vila Nova Da Barquinha
+Vila Nova De Cerveira
+Vila Nova De Famalicão
+Vila Nova De Foz Côa
+Vila Nova De Gaia
+Vila Nova De Paiva
+Vila Nova De Poiares
+Vila Pouca De Aguiar
+Vila Real
+Vila Real De Santo António
+Vila Velha De Ródão
+Vila Verde
+Vila Viçosa
+Vimioso
+Vinhais
+Viseu
+Vizela
+Vouzela
