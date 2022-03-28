@@ -1,7 +1,6 @@
 def fibonacci(n):
     zero = 0
     first = 1
-    temp = 0
     print(zero)
     print(first)
     previous = first
