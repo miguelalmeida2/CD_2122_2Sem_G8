@@ -1,6 +1,6 @@
 import random
-import matplotlib.pyplot as plt
 import string
+import matplotlib.pyplot as plt
 
 
 def string_generator(dictionary, probability, repeat, hist):
@@ -83,6 +83,6 @@ def check_key(stuff):
 
 
 string_generator(["aaa", "bbb", "ccc", "ddd"], [0.10, 0.20, 0.15, 0.50], 100000, hist=True)
-pass_gen(12, 24)
 for i in range(0, 30):
+    pass_gen(12, 24)
     key_gen()
