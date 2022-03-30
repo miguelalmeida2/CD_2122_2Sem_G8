@@ -2,85 +2,87 @@ import random
 import matplotlib.pyplot as plt
 import string
 
-def stringsource(dictionary, probability, repeat, hist):
-    file = open("stringoutput", 'w')
+
+def string_generator(dictionary, probability, repeat, hist):
+    file = open("string_output", 'w')
     result = random.choices(dictionary, weights=probability, k=repeat)
-    countresults = [0]*len(dictionary)
+    count_results = [0]*len(dictionary)
     idx = 0
-    for i in dictionary:
-        countresults[idx] = result.count(i)
+    for a in dictionary:
+        count_results[idx] = result.count(a)
         idx += 1
-    for i in result:
-        file.write(i + ";")
+    for b in result:
+        file.write(b + ";")
     file.close()
-    if(hist):
-        plt.bar(dictionary, countresults, width=0.5)
+    if hist:
+        plt.bar(dictionary, count_results, width=0.5)
         plt.show()
     return result
 
-def passGen(min, max):
-    if min <= 3:
+
+def pass_gen(min_size, max_size):
+    if min_size <= 3:
         print("Min size is 4")
         return
-    size = random.randint(min, max)
+    size = random.randint(min_size, max_size)
     letters = list(string.ascii_letters + string.digits + string.punctuation)
     probability = [1/len(letters)]*len(letters)
     result = []
-    while not checkPassword(result):
-        result = stringsource(letters, probability, size, False)
+    while not check_password(result):
+        result = string_generator(letters, probability, size, False)
     password = ""
-    for i in result:
-        password += i
+    for c in result:
+        password += c
     print(password)
 
-def keyGen():
+
+def key_gen():
     size = 24
     letters = list(string.ascii_uppercase + string.digits)
     probability = [1 / len(letters)] * len(letters)
     result = []
-    while not checkKey(result):
-        result = stringsource(letters, probability, size, False)
+    while not check_key(result):
+        result = string_generator(letters, probability, size, False)
         key = ""
         idx = 1
-        for i in result:
-            key += i
+        for d in result:
+            key += d
             if idx % 4 == 0 and idx != 24:
                 key += "-"
             idx += 1
         print(key)
 
 
-def checkPassword(stuff):
+def check_password(stuff):
     upper = False
     lower = False
     digit = False
     symbol = False
-    for i in stuff:
-        if string.ascii_uppercase.__contains__(i):
+    for e in stuff:
+        if string.ascii_uppercase.__contains__(e):
             upper = True
-        if string.ascii_lowercase.__contains__(i):
+        if string.ascii_lowercase.__contains__(e):
             lower = True
-        if string.digits.__contains__(i):
+        if string.digits.__contains__(e):
             digit = True
-        if string.punctuation.__contains__(i):
+        if string.punctuation.__contains__(e):
             symbol = True
         if upper and lower and digit and symbol:
             return True
     return False
 
-def checkKey(stuff):
+
+def check_key(stuff):
     upper = False
-    for i in stuff:
-        if string.ascii_uppercase.__contains__(i):
+    for f in stuff:
+        if string.ascii_uppercase.__contains__(f):
             upper = True
         if upper:
             return True
     return False
 
 
-stringsource(["aaa", "bbb", "ccc", "ddd"], [0.10, 0.20, 0.15, 0.50], 100000, hist=True)
-passGen(12, 24)
+string_generator(["aaa", "bbb", "ccc", "ddd"], [0.10, 0.20, 0.15, 0.50], 100000, hist=True)
+pass_gen(12, 24)
 for i in range(0, 30):
-    keyGen()
-
-
+    key_gen()
