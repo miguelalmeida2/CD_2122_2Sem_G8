@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 def string_generator(dictionary, probability, repeat, hist):
     file = open("string_output", 'w')
-    result = random.choices(dictionary, weights=probability, k=repeat)
+    result = random.choices(dictionary, probability, k=repeat)
     count_results = [0]*len(dictionary)
     idx = 0
     for a in dictionary:
@@ -15,7 +15,7 @@ def string_generator(dictionary, probability, repeat, hist):
         file.write(b + ";")
     file.close()
     if hist:
-        plt.bar(dictionary, count_results, width=0.5)
+        plt.bar(dictionary, count_results, 0.5)
         plt.show()
     return result
 
@@ -82,7 +82,7 @@ def check_key(stuff):
     return False
 
 
-string_generator(["aaa", "bbb", "ccc", "ddd"], [0.10, 0.20, 0.15, 0.50], 100000, hist=True)
+string_generator(["aaa", "bbb", "ccc", "ddd"], [0.10, 0.20, 0.15, 0.50], 100000, True)
 for i in range(0, 30):
     pass_gen(12, 24)
     key_gen()
