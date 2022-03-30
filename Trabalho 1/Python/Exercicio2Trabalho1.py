@@ -20,7 +20,8 @@ def string_generator(dictionary, probability, repeat, hist):
     if hist:
         plt.bar(dictionary, count_results, 0.5)
         plt.show()
-    print(entropy)
+    if check_password(result) or check_key(result):
+        print("Entropy= " + str(entropy))
     return result
 
 
@@ -37,7 +38,7 @@ def pass_gen(min_size, max_size):
     password = ""
     for c in result:
         password += c
-    print(password)
+    print("Password= " + str(password))
 
 
 def key_gen():
@@ -87,6 +88,6 @@ def check_key(stuff):
 
 
 string_generator(["aaa", "bbb", "ccc", "ddd"], [0.10, 0.20, 0.15, 0.50], 100000, True)
-for i in range(0, 30):
+for i in range(0, 4):
     pass_gen(12, 24)
     key_gen()
