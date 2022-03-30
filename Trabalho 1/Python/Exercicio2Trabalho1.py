@@ -1,5 +1,6 @@
 import random
 import string
+import math
 import matplotlib.pyplot as plt
 
 
@@ -8,8 +9,10 @@ def string_generator(dictionary, probability, repeat, hist):
     result = random.choices(dictionary, probability, k=repeat)
     count_results = [0]*len(dictionary)
     idx = 0
+    entropy = 0
     for a in dictionary:
         count_results[idx] = result.count(a)
+        entropy += probability[idx] * math.log(1 / probability[idx], 2)
         idx += 1
     for b in result:
         file.write(b + ";")
@@ -17,6 +20,7 @@ def string_generator(dictionary, probability, repeat, hist):
     if hist:
         plt.bar(dictionary, count_results, 0.5)
         plt.show()
+    print(entropy)
     return result
 
 
