@@ -87,10 +87,10 @@ def check_key(stuff):
     return False
 
 
-fileNames = open("Nomes.txt")
-fileSurnames = open("Apelidos.txt")
-fileLocals = open("Concelhos.txt")
-fileProfessions = open("Profissoes.txt")
+fileNames = open("../CD_TestFiles/Nomes.txt")
+fileSurnames = open("../CD_TestFiles/Apelidos.txt")
+fileLocals = open("../CD_TestFiles/Concelhos.txt")
+fileProfessions = open("../CD_TestFiles/Profissoes.txt")
 
 listNames = fileNames.readlines()
 listSurnames = fileSurnames.readlines()
