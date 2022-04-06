@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 def string_generator(dictionary, probability, repeat, hist):
-    file = open("string_output", 'w')
+    file = open("Generator_Output", 'w')
     result = random.choices(dictionary, probability, k=repeat)
     count_results = [0]*len(dictionary)
     idx = 0
@@ -106,7 +106,7 @@ for i in range(len(listLocals)):
 for i in range(len(listProfessions)):
     listProfessions[i] = listProfessions[i].strip()
 
-file = open("Output 2C", 'w')
+file = open("Individuos", 'w')
 idList = list([0]*1000)
 for i in range(0, 1000):
     name = string_generator(listNames, [1 / len(listNames)] * len(listNames), 1, False)
@@ -117,6 +117,6 @@ for i in range(0, 1000):
     idList[i] = identification
     file.write(str(identification) + " ; " + name[0] + " ; " + surname[0] + " ; " + residence[0] + " ; " + profession[0] + "\n")
 
-file = open("Output 2C2", 'w')
+file = open("Apostas", 'w')
 numbers = [[random.randint(1, 50) for n in range(5)] for m in range(1000)]
 stars = [[random.randint(1, 11) for n in range(2)] for m in range(1000)]
