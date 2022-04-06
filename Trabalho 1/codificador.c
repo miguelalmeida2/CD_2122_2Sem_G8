@@ -38,7 +38,7 @@ int encoder(char *file_name)
     // Array dos chars e as suas ocorrencias
     int arr_of_occurances[2][LIBRARY_SIZE];
 
-    for(int i = 0; i < 256 ; i++)
+    for (int i = 0; i < 256; i++)
     {
         arr_of_occurances[0][i] = i;
     }
@@ -46,18 +46,18 @@ int encoder(char *file_name)
     float fmp[LIBRARY_SIZE];
     int n_symbols_by_file = 0;
 
+    printf("Tou a contar cada ocorrencia\n");
     // Contar o numero de ocorrencias de cada symbol por ficheiro
     for (int j = 0; j < LIBRARY_SIZE; j++)
     {
         arr_of_occurances[1][j] = count_symbol(file_name, (char)j);
-        printf("Tou a contar cada ocorrencia\n");
     }
 
+    printf("Tou a contar todas a ocorrencias\n");
     // Contar o total de symbols por ficheiro
     for (int k = 0; k < LIBRARY_SIZE; k++)
     {
         n_symbols_by_file += arr_of_occurances[1][k];
-        printf("Tou a contar todas a ocorrencias\n");
     }
 
     printf("Vou começar a ordenar\n");
@@ -81,11 +81,12 @@ int encoder(char *file_name)
 
     printf("A Calcular a FMP da cada Symbol\n");
 
+    printf("%d", n_symbols_by_file);
     // Calcular a funçao massa de probabilidade de cada symbol no ficheiro
     for (int f = 0; f < LIBRARY_SIZE; f++)
     {
         fmp[f] = arr_of_occurances[1][f] / n_symbols_by_file;
-        printf("%f", fmp[f]);
+        printf("%f\n", fmp[f]);
     }
     printf("Calculei a FMP de cada symbol\n");
     return 0;
@@ -102,7 +103,6 @@ int main()
         "lena.bmp",
         "Person.java",
         "progc.c"};
-
 
     printf("Vou entrar do encoder\n");
     int res = encoder(&filename[0][0]);
