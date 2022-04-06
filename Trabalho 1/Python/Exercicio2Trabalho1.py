@@ -87,11 +87,6 @@ def check_key(stuff):
     return False
 
 
-#string_generator(["aaa", "bbb", "ccc", "ddd"], [0.10, 0.20, 0.15, 0.50], 100000, True)
-#for i in range(0, 4):
-#    pass_gen(12, 24)
-#    key_gen()
-
 fileNames = open("Nomes.txt")
 fileSurnames = open("Apelidos.txt")
 fileLocals = open("Concelhos.txt")
@@ -102,14 +97,14 @@ listSurnames = fileSurnames.readlines()
 listLocals = fileLocals.readlines()
 listProfessions = fileProfessions.readlines()
 
-for z in listNames:
-    z = z.rstrip()
-for x in listSurnames:
-    x = x.rstrip()
-for v in listLocals:
-    v = v.rstrip()
-for n in listProfessions:
-    n = n.rstrip()
+for i in range(len(listNames)):
+    listNames[i] = listNames[i].strip()
+for i in range(len(listSurnames)):
+    listSurnames[i] = listSurnames[i].strip()
+for i in range(len(listLocals)):
+    listLocals[i] = listLocals[i].strip()
+for i in range(len(listProfessions)):
+    listProfessions[i] = listProfessions[i].strip()
 
 file = open("Output 2C", 'w')
 idList = list([0]*1000)
@@ -120,7 +115,7 @@ for i in range(0, 1000):
     profession = string_generator(listProfessions, [1 / len(listProfessions)] * len(listProfessions), 1, False)
     identification = random.randint(0, 99999999)
     idList[i] = identification
-    file.write(str(identification) + " " + name[0] + " " + surname[0] + " " + residence[0] + " " + profession[0])
+    file.write(str(identification) + " ; " + name[0] + " ; " + surname[0] + " ; " + residence[0] + " ; " + profession[0] + "\n")
 
 file = open("Output 2C2", 'w')
 numbers = [[random.randint(1, 50) for n in range(5)] for m in range(1000)]
