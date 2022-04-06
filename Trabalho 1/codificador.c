@@ -85,9 +85,14 @@ int encoder(char *file_name)
     // Calcular a funçao massa de probabilidade de cada symbol no ficheiro
     for (int f = 0; f < LIBRARY_SIZE; f++)
     {
-        fmp[f] = arr_of_occurances[1][f] / n_symbols_by_file;
-        printf("%f\n", fmp[f]);
+        fmp[f] = arr_of_occurances[1][f] / (float)n_symbols_by_file;
+        if (fmp[f] != 0)
+        {
+            printf("%f", fmp[f]);
+            printf(" %c\n", (char)arr_of_occurances[0][f]);
+        }
     }
+
     printf("Calculei a FMP de cada symbol\n");
     return 0;
 }
