@@ -38,6 +38,6 @@ def most_occurrences(file_name):
     print(chr(largestidx))
 
 
-most_occurrences("test")
+most_occurrences("Test Files/Test")
 fibonacci(25)
 progression(10, 10, 5)
