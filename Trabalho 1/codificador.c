@@ -14,6 +14,7 @@
 #define LIBRARY_SIZE 256
 #define NUMBER_OF_FILES 6
 #define FILENAME_SIZE 32
+#define UNARY_MAX_SIZE 64
 
 int count_symbol(char *file_name, char symbol)
 {
@@ -33,34 +34,42 @@ int count_symbol(char *file_name, char symbol)
     return cnt;
 }
 
-int encoder(char *file_name)
+void encoder(const char *file_name)
 {
+    char file_name_encoded[64] = "";
+    strcat(file_name_encoded, file_name);
+    strcat(file_name_encoded, "_encoded");
+
     // Array dos chars e as suas ocorrencias
-    int arr_of_occurances[2][LIBRARY_SIZE];
+    unsigned int arr_of_occurances[2][LIBRARY_SIZE];
+    float fmp[LIBRARY_SIZE];
+    float fmp_sum = 0;
+    unsigned int n_symbols_by_file = 0;
+    unsigned int n_symbols_used_by_file = 0;
+    char *modelo[256];
 
     for (int i = 0; i < 256; i++)
     {
         arr_of_occurances[0][i] = i;
     }
 
-    float fmp[LIBRARY_SIZE];
-    int n_symbols_by_file = 0;
-
-    printf("Tou a contar cada ocorrencia\n");
     // Contar o numero de ocorrencias de cada symbol por ficheiro
     for (int j = 0; j < LIBRARY_SIZE; j++)
     {
         arr_of_occurances[1][j] = count_symbol(file_name, (char)j);
     }
 
-    printf("Tou a contar todas a ocorrencias\n");
     // Contar o total de symbols por ficheiro
     for (int k = 0; k < LIBRARY_SIZE; k++)
     {
         n_symbols_by_file += arr_of_occurances[1][k];
+        if (arr_of_occurances[1][k] != 0)
+        {
+            n_symbols_used_by_file++;
+        }
     }
 
-    printf("Vou começar a ordenar\n");
+    // Ordenar os symbols pela quantidade de ocurrencias
     for (int x = 0; x < LIBRARY_SIZE - 1; x++)
     {
         for (int y = 0; y < LIBRARY_SIZE - x - 1; y++)
@@ -77,29 +86,105 @@ int encoder(char *file_name)
             }
         }
     }
-    printf("ORDENEI!\n");
 
-    printf("A Calcular a FMP da cada Symbol\n");
-
-    printf("%d", n_symbols_by_file);
     // Calcular a funçao massa de probabilidade de cada symbol no ficheiro
     for (int f = 0; f < LIBRARY_SIZE; f++)
     {
         fmp[f] = arr_of_occurances[1][f] / (float)n_symbols_by_file;
+        fmp_sum += fmp[f];
+        /*
         if (fmp[f] != 0)
         {
-            printf("%f", fmp[f]);
-            printf(" %c\n", (char)arr_of_occurances[0][f]);
+            printf("%c -> %f;\n", (char)arr_of_occurances[0][f], fmp[f]);
         }
+        */
     }
 
-    printf("Calculei a FMP de cada symbol\n");
-    return 0;
+    printf("Soma de symbols = %d e nº de simbolos usados foi = %d\n", n_symbols_by_file, n_symbols_used_by_file);
+    printf("Total de FMP = %f\n", fmp_sum);
+
+    // for para a escrita em modo semi-adaptativo no ficheiro saída
+    FILE *file_encoded, *file;
+    file = fopen(file_name, "r");
+    file_encoded = fopen(file_name_encoded, "w+");
+
+    // Criar a string modelo para colocar no ficheiro encoded
+    printf("--------------------------------------\n");
+    printf("\t    MODELO!!\n");
+    printf("\n");
+    for (int f = 255; fmp[f] != 0; f--)
+    {
+        modelo[f] = arr_of_occurances[0][f];
+        printf("%c", modelo[f]);
+        fputc(modelo[f], file_encoded);
+    }
+    printf("\n");
+    char sut = getc(file);
+    printf("--------------------------------------\n\t    Texto a Escrever:\n");
+    printf("\n");
+    printf("%c", sut);
+    char bit = '0';
+    while (sut != EOF)
+    {
+        fputc(bit, file_encoded);
+        for (int c = 255; arr_of_occurances[0][c] != sut; c--)
+        {
+            bit = '1';
+            // bit = 0x1;
+            fputc(bit, file_encoded);
+            // fwrite(bit,1,1,file_encoded);
+            bit = '0';
+            // bit = 0x0;
+        }
+        sut = getc(file);
+        printf("%c", sut);
+    }
+    printf("\n");
+    printf("--------------------------------------\n");
+}
+
+void decoder(const char *file_name)
+{
+    char file_name_encoded[64] = "";
+    strcat(file_name_encoded, file_name);
+    strcat(file_name_encoded, "_encoded");
+
+    char file_name_decoded[64] = "";
+    strcat(file_name_decoded, file_name);
+    strcat(file_name_decoded, "_decoded");
+
+    char *modelo[256];
+    FILE *file;
+    file = fopen(file_name_encoded, "r");
+    char sut = fgetc(file);
+    char *pch;
+    // Ler o modelo acaba quando encontro o primeiro caracter repetido
+    for (int i = 0; sut != NULL; i++)
+    {
+        pch = (char *)memchr(modelo, sut, strlen(modelo));
+        if (pch != NULL)
+        {
+            printf("%c already read/found!!\n", sut);
+            break;
+        }
+        else
+        {
+            // printf("%c not found.\n",sut);
+            modelo[i] = sut;
+            sut = fgetc(file_name_encoded);
+        }
+    }
+    // Aqui já tenho modelo vou começar a ler o binário e escrever 
+    //  num ficheiro o descodificado
+
+    for (size_t i = 0; i < count; i++)
+    {
+        /* code */
+    }
 }
 
 int main()
 {
-    printf("Inicio\n");
     // Array de nomes dos ficheiros
     char filename[NUMBER_OF_FILES][FILENAME_SIZE] = {
         "a.txt",
@@ -109,9 +194,7 @@ int main()
         "Person.java",
         "progc.c"};
 
-    printf("Vou entrar do encoder\n");
-    int res = encoder(&filename[0][0]);
-    printf("%d", res);
+    // encoder(&filename[0][0]);
 
-    return 0;
+    decoder(&filename[0][0]);
 }
