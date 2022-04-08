@@ -56,7 +56,7 @@ void encoder(const char *file_name)
     // Contar o numero de ocorrencias de cada symbol por ficheiro
     for (int j = 0; j < LIBRARY_SIZE; j++)
     {
-        arr_of_occurances[1][j] = count_symbol(file_name, (char)j);
+        arr_of_occurances[1][j] = count_symbol((char *)file_name, (char)j);
     }
 
     // Contar o total de symbols por ficheiro
@@ -99,7 +99,7 @@ void encoder(const char *file_name)
         }
         */
     }
-
+    printf("\n");
     printf("Soma de symbols = %d e nº de simbolos usados foi = %d\n", n_symbols_by_file, n_symbols_used_by_file);
     printf("Total de FMP = %f\n", fmp_sum);
 
@@ -112,9 +112,10 @@ void encoder(const char *file_name)
     printf("--------------------------------------\n");
     printf("\t    MODELO!!\n");
     printf("\n");
+
     for (int f = 255; fmp[f] != 0; f--)
     {
-        modelo[f] = arr_of_occurances[0][f];
+        modelo[f] = (char *)arr_of_occurances[0][f];
         printf("%c", modelo[f]);
         fputc(modelo[f], file_encoded);
     }
@@ -143,46 +144,6 @@ void encoder(const char *file_name)
     printf("--------------------------------------\n");
 }
 
-void decoder(const char *file_name)
-{
-    char file_name_encoded[64] = "";
-    strcat(file_name_encoded, file_name);
-    strcat(file_name_encoded, "_encoded");
-
-    char file_name_decoded[64] = "";
-    strcat(file_name_decoded, file_name);
-    strcat(file_name_decoded, "_decoded");
-
-    char *modelo[256];
-    FILE *file;
-    file = fopen(file_name_encoded, "r");
-    char sut = fgetc(file);
-    char *pch;
-    // Ler o modelo acaba quando encontro o primeiro caracter repetido
-    for (int i = 0; sut != NULL; i++)
-    {
-        pch = (char *)memchr(modelo, sut, strlen(modelo));
-        if (pch != NULL)
-        {
-            printf("%c already read/found!!\n", sut);
-            break;
-        }
-        else
-        {
-            // printf("%c not found.\n",sut);
-            modelo[i] = sut;
-            sut = fgetc(file_name_encoded);
-        }
-    }
-    // Aqui já tenho modelo vou começar a ler o binário e escrever 
-    //  num ficheiro o descodificado
-
-    for (size_t i = 0; i < count; i++)
-    {
-        /* code */
-    }
-}
-
 int main()
 {
     // Array de nomes dos ficheiros
@@ -194,7 +155,5 @@ int main()
         "Person.java",
         "progc.c"};
 
-    // encoder(&filename[0][0]);
-
-    decoder(&filename[0][0]);
+    encoder(&filename[0][0]);
 }
