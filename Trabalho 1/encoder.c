@@ -123,28 +123,37 @@ void encoder(const char *file_name)
     printf("--------------------------------------\n\t    Texto a Escrever:\n");
     printf("\n");
     char sut = getc(file);
-    char bit;
+    //printf("%c", sut);
+    char bit = '0';
     while (sut != EOF)
     {
-
-        // fwrite(bit,1,1,file_encoded);
-        for (int c = 255; arr_of_occurances[0][c] != sut; c--)
+        if (arr_of_occurances[0][255] == sut)
         {
-            bit = '1';
+            bit = '0';
             fputc(bit, file_encoded);
-            // bit = 0x1;
-            // fwrite(bit,1,1,file_encoded);
-            // bit = 0x0;
+            printf("%c", sut);
+            sut = getc(file);
         }
-        bit = '0';
-        fputc(bit, file_encoded);
-        sut = getc(file);
-        printf("%c", sut);
+        else
+        {
+            // fwrite(bit,1,1,file_encoded);
+            for (int c = 255; arr_of_occurances[0][c] != sut; c--)
+            {
+                bit = '1';
+                fputc(bit, file_encoded);
+                // bit = 0x1;
+                // fwrite(bit,1,1,file_encoded);
+                // bit = 0x0;
+            }
+            bit = '0';
+            fputc(bit, file_encoded);
+            sut = getc(file);
+            printf("%c", sut);
+        }
     }
-    
+
     printf("\n");
     printf("--------------------------------------\n");
-    
 }
 
 int main()
