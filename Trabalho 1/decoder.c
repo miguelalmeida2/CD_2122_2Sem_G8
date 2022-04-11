@@ -26,43 +26,52 @@ void decoder(const char *file_name)
     strcat(file_name_decoded, (char *)file_name);
     strcat(file_name_decoded, "_decoded");
 
-    char *modelo[256];
-    for (int i = 0; i <= 255; i++)
-    {
-                modelo[i] = '∆';
-    }
-    
+    char modelo[256];
+    char buffer[1024];
+
     FILE *file_read, *file_write;
-    file_write = fopen(file_name_decoded,"w");
-    file_read  = fopen(file_name_encoded, "r");
+    file_write = fopen(file_name_decoded, "w");
+    file_read = fopen(file_name_encoded, "r");
     char sut = fgetc(file_read);
-    char pch;
+    char curr_char;
+
     // Ler o modelo acaba quando encontro o primeiro caracter repetido
-    for (int i = 0; ; i++)
+    char *pch;
+    for (int i = 0;; i++)
     {
-        pch = (char *)memchr(modelo, sut, strlen(modelo));
+        pch = strchr(modelo, sut);
         if (pch != NULL)
         {
-            printf("%c already read/found!!\n", sut);
+            pch = strchr(pch + 1, sut);
             break;
         }
         else
         {
-            // printf("%c not found.\n",sut);
             modelo[i] = sut;
             sut = fgetc(file_read);
         }
     }
     // Aqui já tenho modelo vou começar a ler o binário e escrever
     //  num ficheiro o descodificado
-
-    
-    //for (size_t i = 0; i < count; i++)
-    //{
-        /* code */
-    //}
+    int i = 0;
+    for (; sut != EOF; i++)
+    {
+        int j = 0;
+        for (;; j++)
+        {
+            curr_char = sut;
+            sut = fgetc(file_read);
+            if(sut == NULL || sut == EOF) break;
+            if ( (curr_char == '0' && sut == '0') || (curr_char == '1' && sut == '0'))
+            {
+                fputc(modelo[j], file_write);
+                buffer[i] = modelo[j];
+                printf("%c",modelo[j]);
+                break;
+            }
+        }
+    }
 }
-
 
 int main()
 {
