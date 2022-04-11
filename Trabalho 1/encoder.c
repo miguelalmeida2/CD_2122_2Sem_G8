@@ -112,36 +112,39 @@ void encoder(const char *file_name)
     printf("--------------------------------------\n");
     printf("\t    MODELO!!\n");
     printf("\n");
-
-    for (int f = 255; fmp[f] != 0; f--)
+    int f = 255;
+    for (; fmp[f] != 0; f--)
     {
         modelo[f] = (char *)arr_of_occurances[0][f];
         printf("%c", modelo[f]);
         fputc(modelo[f], file_encoded);
     }
     printf("\n");
-    char sut = getc(file);
     printf("--------------------------------------\n\t    Texto a Escrever:\n");
     printf("\n");
-    printf("%c", sut);
-    char bit = '0';
+    char sut = getc(file);
+    char bit;
     while (sut != EOF)
     {
-        fputc(bit, file_encoded);
+
+        // fwrite(bit,1,1,file_encoded);
         for (int c = 255; arr_of_occurances[0][c] != sut; c--)
         {
             bit = '1';
-            // bit = 0x1;
             fputc(bit, file_encoded);
+            // bit = 0x1;
             // fwrite(bit,1,1,file_encoded);
-            bit = '0';
             // bit = 0x0;
         }
+        bit = '0';
+        fputc(bit, file_encoded);
         sut = getc(file);
         printf("%c", sut);
     }
+    
     printf("\n");
     printf("--------------------------------------\n");
+    
 }
 
 int main()
