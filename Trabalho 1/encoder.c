@@ -115,10 +115,11 @@ void encoder(const char *file_name)
     int f = 255;
     for (; fmp[f] != 0; f--)
     {
-        modelo[f] = (char *)arr_of_occurances[0][f];
-        printf("%c", modelo[f]);
+        modelo[f] = (char)arr_of_occurances[0][f];
+        printf("%c", (char)modelo[f]);
         fputc(modelo[f], file_encoded);
     }
+    fputc(modelo[f+1], file_encoded);
     printf("\n");
     printf("--------------------------------------\n\t    Texto a Escrever:\n");
     printf("\n");
