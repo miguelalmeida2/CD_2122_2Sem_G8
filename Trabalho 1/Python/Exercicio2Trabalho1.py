@@ -4,30 +4,23 @@ import math
 import matplotlib.pyplot as plt
 
 
-class StringEntropyPair:
-    # For entropy display
-    def __init__(self, text, entropy: int):
-        self.text = text
-        self.entropy = entropy
-
-
 def string_generator(dictionary, probability, repeat, hist):
     generator_file = open("Test Files/Generator_Output", 'w')
     result_string = random.choices(dictionary, probability, k=repeat)
     count_results = [0]*len(dictionary)
     idx = 0
     entropy = 0
-    for i in dictionary:
-        count_results[idx] = result_string.count(i)
+    for symbol in dictionary:
+        count_results[idx] = result_string.count(symbol)
         entropy += probability[idx] * math.log(1 / probability[idx], 2)
         idx += 1
-    for i in result_string:
-        generator_file.write(i + ";")
+    for symbol in result_string:
+        generator_file.write(symbol + ";")
     generator_file.close()
     if hist:
         plt.bar(dictionary, count_results, 0.5)
         plt.show()
-    return StringEntropyPair(result_string, entropy)
+    return result_string
 
 
 def pass_gen(min_size, max_size):
@@ -37,30 +30,30 @@ def pass_gen(min_size, max_size):
     size = random.randint(min_size, max_size)
     letters = list(string.ascii_letters + string.digits + string.punctuation)
     probability = [1/len(letters)]*len(letters)
-    result = StringEntropyPair("", 0)
-    while not check_password(result.text):
+    result = ""
+    while not check_password(result):
         result = string_generator(letters, probability, size, False)
     password = ""
-    for i in result.text:
-        password += i
-    print("Password= " + str(password) + " Entropy= " + str(result.entropy))
+    for symbol in result:
+        password += symbol
+    print("Password= " + str(password))
 
 
 def key_gen():
     size = 24
     letters = list(string.ascii_uppercase + string.digits)
     probability = [1 / len(letters)] * len(letters)
-    result = StringEntropyPair("", 0)
-    while not check_key(result.text):
+    result = ""
+    while not check_key(result):
         result = string_generator(letters, probability, size, False)
         key = ""
         idx = 1
-        for d in result.text:
-            key += d
+        for symbol in result:
+            key += symbol
             if idx % 4 == 0 and idx != 24:
                 key += "-"
             idx += 1
-        print("Key= " + key + " Entropy= " + str(result.entropy))
+        print("Key= " + key)
 
 
 def check_password(text):
@@ -92,7 +85,6 @@ def check_key(text):
     return False
 
 
-"""
 fileNames = open("../CD_TestFiles/Nomes.txt")
 fileSurnames = open("../CD_TestFiles/Apelidos.txt")
 fileLocals = open("../CD_TestFiles/Concelhos.txt")
@@ -113,15 +105,43 @@ for i in range(len(listProfessions)):
     listProfessions[i] = listProfessions[i].strip()
 
 file = open("Test Files/Individuos", 'w')
-idList = list([0]*1000)
-for i in range(0, 1000):
-    name = string_generator(listNames, [1 / len(listNames)] * len(listNames), 1, False)
-    surname = string_generator(listSurnames, [1 / len(listSurnames)] * len(listSurnames), 1, False)
+idList = list([0]*100)
+for i in range(1, 100):
+    name = string_generator(listNames, [1 / len(listNames)] * len(listNames), random.randint(1, 2), False)
+    surname = string_generator(listSurnames, [1 / len(listSurnames)] * len(listSurnames), random.randint(1, 2), False)
     residence = string_generator(listLocals, [1 / len(listLocals)] * len(listLocals), 1, False)
     profession = string_generator(listProfessions, [1 / len(listProfessions)] * len(listProfessions), 1, False)
     idList[i] = i
-    file.write(str(i) + " ; " + name[0] + " ; " + surname[0] + " ; " + residence[0] + " ; " + profession[0] + "\n")
+    file.write(str(i) + " ;")
+    for firstName in name:
+        file.write(" " + firstName)
+    for lastName in surname:
+        file.write(" " + lastName )
+    file.write(" ; " + residence[0] + " ; " + profession[0])
+    file.write("\n")
+
 file = open("Test Files/Apostas", 'w')
-numbers = [[random.randint(1, 50) for n in range(5)] for m in range(1000)]
-stars = [[random.randint(1, 11) for n in range(2)] for m in range(1000)]
-"""
+numbers = [random.sample(range(1, 50), 5) for m in range(1000)]
+stars = [random.sample(range(1, 11), 2) for m in range(1000)]
+for i in range(1, 1000):
+    year = random.randint(1990, 2020)
+    month = random.randint(1, 12)
+    if month == 2:
+        if year/4 == 0:
+            day = random.randint(1, 29)
+        else:
+            day = random.randint(1, 28)
+    else:
+        if month == 1 or month == 3 or month == 5 or month == 7 or month == 8 or month == 10 or month == 12:
+            day = random.randint(1, 31)
+        else:
+            day = random.randint(1, 30)
+
+    file.write(str(idList[random.randint(0, len(idList))-1]) + " ;")
+    num = numbers[random.randint(0, len(numbers))-1]
+    file.write(" " + str(num) + " ")
+    file.write(":")
+    star = stars[random.randint(0, len(stars)-1)]
+    file.write(" " + str(star) + " ")
+    file.write("; " + str(day) + "-" + str(month) + "-" + str(year) + "\n")
+    
