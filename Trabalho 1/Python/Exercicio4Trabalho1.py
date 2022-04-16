@@ -1,41 +1,60 @@
 local_path = "../CD_TestFiles/"
 
 
-def lz77_tokenizer(filename: str, window_size: int, buffer_size: int):
+def LZ77_Tokenizer(filename: str, window_size: int, buffer_size: int):
     file = open(local_path + filename)
     dictionary = ""
     lab = file.read(buffer_size)
     while lab != "":
-        index, lenght, break_char = find_max_match(dictionary, lab)
-        print("("+str(max(0, index))+", "+str(max(0, lenght))+", "+break_char+")")
+        index, lenght, innovation_symbol = LZ77_search(dictionary, lab)
+        print("("+str(max(0, index))+", "+str(max(0, lenght))+", "+innovation_symbol+")")
         dictionary += lab[:lenght+1]
         lab = lab.removeprefix(lab[:lenght+1])
         lab += file.read(lenght+1)
-        dictionary = trim_dictionary(dictionary, window_size)
+        dictionary = trimDictionary(dictionary, window_size)
     print(dictionary)
 
 
-def trim_dictionary(window, max_size):
+def trimDictionary(window, max_size):
     while len(window) > max_size:
         window = window.removeprefix(window[0])
     return window
 
 
-def find_max_match(window, buffer):
-    temp_match = buffer[0]
-    index = window.find(temp_match)
-    idx = 1
-    while index >= 0 and len(temp_match) < len(buffer):
-        temp_match += buffer[idx]
-        index = window.find(temp_match)
-        idx += 1
-    break_char = temp_match[len(temp_match)-1]
-    lenght = len(temp_match)-1
-    return window.find(temp_match[:1]), lenght, break_char
+def LZ77_search(search, look_ahead):
+    ls = len(search)
+    llh = len(look_ahead)
+
+    if ls == 0:
+        return 0, 0, look_ahead[0]
+
+    if llh == 0:
+        return -1, -1, ""
+
+    best_length = 0
+    best_offset = 0
+    buf = search + look_ahead
+
+    search_pointer = ls
+    print("search: ", search, " lookahead: ", look_ahead)
+    for i in range(0, ls):
+        length = 0
+        while buf[i + length] == buf[search_pointer + length]:
+            length = length + 1
+            if search_pointer + length == len(buf):
+                length = length - 1
+                break
+            if i + length >= search_pointer:
+                break
+        if length > best_length:
+            best_offset = i
+            best_length = length
+
+    return best_offset, best_length, buf[search_pointer + best_length]
 
 
 outputFile = open("Test Files/a_decompressed.txt", 'w')
-lz77_tokenizer("b.txt", 4, 2)
+LZ77_Tokenizer("b.txt", 4, 2)
 """ 
 dict = 
 lab = aa
@@ -48,9 +67,8 @@ lab = bb
 (0, 0, b)
 dict = aab
 lab = ba
-(2, 1, a)
+(0, 1, a)
 dict = aabb
 lab = aa
-(2, 1, a)
-
+(0, 1, a)
 """
