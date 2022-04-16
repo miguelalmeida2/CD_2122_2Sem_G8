@@ -26,14 +26,12 @@ void decoder(const char *file_name)
     strcat(file_name_decoded, (char *)file_name);
     strcat(file_name_decoded, "_decoded");
 
-    char modelo[256];
-    char buffer[1024];
+    char modelo[LIBRARY_SIZE];
 
     FILE *file_read, *file_write;
     file_write = fopen(file_name_decoded, "w");
     file_read = fopen(file_name_encoded, "r");
     char sut = fgetc(file_read);
-    char curr_char;
 
     // Ler o modelo acaba quando encontro o primeiro caracter repetido
     char *pch;
@@ -43,6 +41,7 @@ void decoder(const char *file_name)
         if (pch != NULL)
         {
             pch = strchr(pch + 1, sut);
+            //modelo[i] = sut;
             break;
         }
         else
@@ -51,24 +50,35 @@ void decoder(const char *file_name)
             sut = fgetc(file_read);
         }
     }
+
     // Aqui já tenho modelo vou começar a ler o binário e escrever
     //  num ficheiro o descodificado
-    int i = 0;
-    for (; sut != EOF; i++)
+
+    sut = getc(file_read);
+    // printf("%c", sut);
+    while (sut != EOF)
     {
-        int j = 0;
-        for (;; j++)
+        if (sut == '0')
         {
-            curr_char = sut;
-            sut = fgetc(file_read);
-            if(sut == NULL || sut == EOF) break;
-            if ( (curr_char == '0' && sut == '0') || (curr_char == '1' && sut == '0'))
+            fputc(modelo[0], file_write);
+            printf("%c", modelo[0]);
+            sut = getc(file_read);
+        }
+        else
+        {
+            // fwrite(bit,1,1,file_encoded);
+            int cnt = 0;
+            while (sut != '0')
             {
-                fputc(modelo[j], file_write);
-                buffer[i] = modelo[j];
-                printf("%c",modelo[j]);
-                break;
+                sut = getc(file_read);
+                cnt++;
+                // bit = 0x1;
+                // fwrite(bit,1,1,file_encoded);
+                // bit = 0x0;
             }
+            fputc(modelo[cnt], file_write);
+            sut = getc(file_read);
+            printf("%c", modelo[cnt]);
         }
     }
 }
