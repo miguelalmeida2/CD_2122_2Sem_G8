@@ -7,7 +7,7 @@ test_path = "Test Files/"
 
 
 def string_generator(dictionary, probability, repeat, hist):
-    file = open("Generator_Output", 'w')
+    file = open(test_path + "Generator_Output", 'w')
     result = random.choices(dictionary, probability, k=repeat)
     resultSymbols = [i for n, i in enumerate(result) if i not in result[:n]]
     countresults = [0] * len(resultSymbols)
