@@ -1,6 +1,5 @@
 import math
 from matplotlib import pyplot as plt
-
 local_path = "../CD_TestFiles/"
 test_path = "Test Files/"
 
@@ -36,11 +35,9 @@ def LZ77_Tokenizer(filename: str, window_size: int, buffer_size: int):
         positionProbablity = value / totalTokens
         if positionProbablity != 0:
             positionEntropy += positionProbablity * math.log(1 / positionProbablity, 2)
-
     plt.bar(range(0, window_size), histPosition, 0.5)
     plt.show()
     print("Position Entropy:", positionEntropy)
-
     plt.bar(range(0, buffer_size), histLength, 0.5)
     plt.show()
     print("Length Entropy:", lengthEntropy)
@@ -49,17 +46,13 @@ def LZ77_Tokenizer(filename: str, window_size: int, buffer_size: int):
 def LZ77_search(dictionary, lab):
     dictLength = len(dictionary)
     labLength = len(lab)
-
     if dictLength == 0:
         return 0, 0, lab[0]
-
     if labLength == 0:
         return -1, -1, ""
-
     best_length = 0
     best_offset = 0
     buf = dictionary + lab
-
     search_pointer = dictLength
     # print("search: ", dictionary, " lookahead: ", lab)
     for i in range(0, dictLength):
@@ -74,8 +67,7 @@ def LZ77_search(dictionary, lab):
         if length > best_length:
             best_offset = i
             best_length = length
-
     return best_offset, best_length, buf[search_pointer + best_length]
 
 
-LZ77_Tokenizer("cp.htm", 16, 4)
+LZ77_Tokenizer("b.txt", 16, 4)
