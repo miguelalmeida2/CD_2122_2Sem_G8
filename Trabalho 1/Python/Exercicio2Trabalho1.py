@@ -9,21 +9,21 @@ test_path = "Test Files/"
 def string_generator(dictionary, probability, repeat, hist):
     file = open("Generator_Output", 'w')
     result = random.choices(dictionary, probability, k=repeat)
-    countresults = [0] * len(result)
+    resultSymbols = [i for n, i in enumerate(result) if i not in result[:n]]
+    countresults = [0] * len(resultSymbols)
     entropy = 0
     idx = 0
-    for i in result:
+    for i in resultSymbols:
         countresults[idx] = result.count(i)
         idx += 1
     for i in result:
         file.write(i + ";")
     for i in countresults:
-        if i != 0:
-            prob = i / len(result)
-            entropy += prob * math.log(1 / prob, 2)
+        prob = i / len(result)
+        entropy += prob * math.log(1 / prob, 2)
     file.close()
     if hist:
-        plt.bar(dictionary, countresults, width=0.5)
+        plt.bar(list(resultSymbols), countresults, width=0.5)
         plt.show()
     return result, entropy
 
@@ -36,6 +36,7 @@ def pass_gen(min_size, max_size):
     letters = list(string.ascii_letters + string.digits + string.punctuation)
     probability = [1/len(letters)]*len(letters)
     result = ""
+    entropy = 0
     while not check_password(result):
         result, entropy = string_generator(letters, probability, size, False)
     password = ""
@@ -49,6 +50,8 @@ def key_gen():
     letters = list(string.ascii_uppercase + string.digits)
     probability = [1 / len(letters)] * len(letters)
     result = ""
+    entropy = 0
+    key = ""
     while not check_key(result):
         result, entropy = string_generator(letters, probability, size, False)
         key = ""
@@ -94,11 +97,10 @@ keyFile = open(test_path + "generated_keys", 'w')
 passFile = open(test_path + "generated_passwords", 'w')
 for index in range(0, 50):
     keyword, keyEntropy = key_gen()
-    keyFile.write(keyword + "\n" + str(keyEntropy) + "\n")
+    keyFile.write(keyword + "\n" + "Entropy: " + str(keyEntropy) + "\n")
     password00, keyEntropy = pass_gen(12, 24)
-    passFile.write(password00 + "\n" + str(keyEntropy) + "\n")
+    passFile.write(password00 + "\n" + "Entropy: " + str(keyEntropy) + "\n")
 
-"""
 fileNames = open("../CD_TestFiles/Nomes.txt")
 fileSurnames = open("../CD_TestFiles/Apelidos.txt")
 fileLocals = open("../CD_TestFiles/Concelhos.txt")
@@ -119,14 +121,13 @@ for i in range(len(listProfessions)):
     listProfessions[i] = listProfessions[i].strip()
 
 file = open("Test Files/Individuos", 'w')
-idList = list([0]*100)
-for i in range(1, 100):
+idList = random.sample(range(1, 1000), 999)
+for i in range(1, 1000):
     name, ignore = string_generator(listNames, [1 / len(listNames)] * len(listNames), random.randint(1, 2), False)
     surname, ignore = string_generator(listSurnames, [1 / len(listSurnames)] * len(listSurnames), random.randint(1, 2), False)
     residence, ignore = string_generator(listLocals, [1 / len(listLocals)] * len(listLocals), 1, False)
     profession, ignore = string_generator(listProfessions, [1 / len(listProfessions)] * len(listProfessions), 1, False)
-    idList[i] = i
-    file.write(str(i) + " ;")
+    file.write(str(idList[i-1]) + " ;")
     for firstName in name:
         file.write(" " + firstName)
     for lastName in surname:
@@ -158,4 +159,3 @@ for i in range(1, 1000):
     star = stars[random.randint(0, len(stars)-1)]
     file.write(" " + str(star) + " ")
     file.write("; " + str(day) + "-" + str(month) + "-" + str(year) + "\n")
-"""
