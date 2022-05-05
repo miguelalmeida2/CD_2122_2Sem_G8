@@ -16,24 +16,6 @@
 #define FILENAME_SIZE 32
 #define UNARY_MAX_SIZE 64
 
-int count_symbol(char *file_name, char symbol)
-{
-    FILE *file;
-    file = fopen(file_name, "r");
-    char sut = fgetc(file);
-    int cnt = 0;
-    while (sut != EOF)
-    {
-        if (sut == symbol)
-        {
-            cnt++;
-        }
-        sut = fgetc(file);
-    }
-    fclose(file);
-    return cnt;
-}
-
 void encoder(const char *file_name)
 {
     char file_name_encoded[64] = "";
@@ -46,18 +28,24 @@ void encoder(const char *file_name)
     float fmp_sum = 0;
     unsigned int n_symbols_by_file = 0;
     unsigned int n_symbols_used_by_file = 0;
-    char *modelo[256];
+    unsigned char *modelo[256];
 
     for (int i = 0; i < 256; i++)
     {
         arr_of_occurances[0][i] = i;
+        arr_of_occurances[1][i] = 0;
     }
 
     // Contar o numero de ocorrencias de cada symbol por ficheiro
-    for (int j = 0; j < LIBRARY_SIZE; j++)
+    FILE *file_read;
+    file_read = fopen(file_name, "r");
+    unsigned char sut = fgetc(file_read);
+    while (!feof(file_read))
     {
-        arr_of_occurances[1][j] = count_symbol((char *)file_name, (char)j);
+        arr_of_occurances[1][sut]++;
+        sut = fgetc(file_read);
     }
+    fclose(file_read);
 
     // Contar o total de symbols por ficheiro
     for (int k = 0; k < LIBRARY_SIZE; k++)
@@ -106,7 +94,7 @@ void encoder(const char *file_name)
     // for para a escrita em modo semi-adaptativo no ficheiro saída
     FILE *file_encoded, *file;
     file = fopen(file_name, "r");
-    file_encoded = fopen(file_name_encoded, "w+");
+    file_encoded = fopen(file_name_encoded, "w+b");
 
     // Criar a string modelo para colocar no ficheiro encoded
     printf("--------------------------------------\n");
@@ -115,43 +103,73 @@ void encoder(const char *file_name)
     int f = 255;
     for (; fmp[f] != 0; f--)
     {
-        modelo[f] = (char)arr_of_occurances[0][f];
-        printf("%c", (char)modelo[f]);
+        modelo[f] = arr_of_occurances[0][f];
+        printf("%c", modelo[f]);
         fputc(modelo[f], file_encoded);
     }
-    fputc(modelo[f+1], file_encoded);
+    fputc(modelo[f + 1], file_encoded);
     printf("\n");
     printf("--------------------------------------\n\t    Texto a Escrever:\n");
     printf("\n");
-    char sut = getc(file);
-    //printf("%c", sut);
-    char bit = '0';
-    while (sut != EOF)
+    sut = getc(file);
+    unsigned char buffer = 0x0;
+    // char bit = '0';
+    unsigned int bitCounter = 0;
+    while (!feof(file))
     {
         if (arr_of_occurances[0][255] == sut)
         {
-            bit = '0';
-            fputc(bit, file_encoded);
+            //   bit = '0';
+            buffer = buffer << 1;
+            bitCounter++;
+            if (bitCounter != 0)
+            {
+                if (bitCounter % 8 == 0)
+                {
+                    fwrite(&buffer, 1, 1, file_encoded);
+                    buffer = 0x0;
+                }
+            }
+            // fputc(bit, file_encoded);
             printf("%c", sut);
             sut = getc(file);
         }
         else
         {
-            // fwrite(bit,1,1,file_encoded);
             for (int c = 255; arr_of_occurances[0][c] != sut; c--)
             {
-                bit = '1';
-                fputc(bit, file_encoded);
-                // bit = 0x1;
-                // fwrite(bit,1,1,file_encoded);
-                // bit = 0x0;
+                //    bit = '1';
+                buffer = buffer << 1;
+                buffer++;
+                bitCounter++;
+                if (bitCounter != 0)
+                {
+                    if (bitCounter % 8 == 0)
+                    {
+                        fwrite(&buffer, 1, 1, file_encoded);
+                        buffer = 0x0;
+                    }
+                }
+                // fputc(bit, file_encoded);
             }
-            bit = '0';
-            fputc(bit, file_encoded);
+            // bit = '0';
+            buffer = buffer << 1;
+            bitCounter++;
+            if (bitCounter != 0)
+            {
+                if ((bitCounter % 8) == 0)
+                {
+                    fwrite(&buffer, 1, 1, file_encoded);
+                    buffer = 0x0;
+                }
+            }
+            // fputc(bit, file_encoded);
             sut = getc(file);
             printf("%c", sut);
         }
     }
+    fclose(file_encoded);
+    fclose(file);
 
     printf("\n");
     printf("--------------------------------------\n");
