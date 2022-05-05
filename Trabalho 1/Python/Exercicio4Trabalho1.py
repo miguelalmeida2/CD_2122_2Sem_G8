@@ -17,11 +17,11 @@ def LZ77_Tokenizer(filename: str, window_size: int, buffer_size: int):
     while labIterator < len(inputText):
         dictionary = inputText[dictIterator:labIterator]
         lab = inputText[labIterator:labIterator+buffer_size]
-        offset, length, char = LZ77_search(dictionary, lab)
+        offset, length, char, displayOffset = LZ77_search(dictionary, lab)
         histPosition[offset] += 1
         histLength[length] += 1
-        print("(" + str(offset) + ", " + str(length) + ", " + char + ")")
-        outputFile.write("(" + str(offset) + ", " + str(length) + ", " + char + ")" + "\n")
+        print("(" + str(displayOffset) + ", " + str(length) + ", " + char + ")")
+        outputFile.write("(" + str(displayOffset) + ", " + str(length) + ", " + char + ")" + "\n")
         labIterator = labIterator + length + 1
         dictIterator = labIterator - window_size
         totalTokens += 1
@@ -47,15 +47,17 @@ def LZ77_search(dictionary, lab):
     dictLength = len(dictionary)
     labLength = len(lab)
     if dictLength == 0:
-        return 0, 0, lab[0]
+        return 0, 0, lab[0], 0
     if labLength == 0:
-        return -1, -1, ""
+        return -1, -1, "", -1
     best_length = 0
     best_offset = 0
+    displayOffset = 0
     buf = dictionary + lab
     search_pointer = dictLength
     # print("search: ", dictionary, " lookahead: ", lab)
     for i in range(0, dictLength):
+        idx = dictLength
         length = 0
         while buf[i + length] == buf[search_pointer + length]:
             length = length + 1
@@ -67,7 +69,11 @@ def LZ77_search(dictionary, lab):
         if length > best_length:
             best_offset = i
             best_length = length
-    return best_offset, best_length, buf[search_pointer + best_length]
+            displayOffset = idx - 1
+        idx -= 1
+    return best_offset, best_length, buf[search_pointer + best_length], displayOffset
 
 
-LZ77_Tokenizer("b.txt", 16, 4)
+testFiles = ["a.txt", "alice29.txt", "cp.htm", "Person.java", "progc.c"]
+for file in testFiles:
+    LZ77_Tokenizer(file, 16, 4)
