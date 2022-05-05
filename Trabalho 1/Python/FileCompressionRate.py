@@ -1,12 +1,12 @@
 import os
-import matplotlib as plt
+import matplotlib.pyplot as plt
 local_path = "../CD_TestFiles/"
 test_path = "Test Files/"
 
 
-def compressionRate(file1, file2):
-    file1Size = float(os.stat(file1).st_size)
-    file2Size = float(os.stat(file2).st_size)
+def compressionRate(file1: str, file2: str):
+    file1Size = float(os.stat(local_path + file1).st_size)
+    file2Size = float(os.stat(local_path + file2).st_size)
     plt.bar([file1, file2], [file1Size, file2Size], 0.5)
     plt.show()
     return file1Size / file2Size
