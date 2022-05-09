@@ -69,11 +69,12 @@ def LZ77_search(dictionary, lab):
         if length > best_length:
             best_offset = i
             best_length = length
-            displayOffset = idx - 1
+            displayOffset = idx - i
         idx -= 1
     return best_offset, best_length, buf[search_pointer + best_length], displayOffset
 
 
-testFiles = ["a.txt", "alice29.txt", "cp.htm", "Person.java", "progc.c"]
-for file in testFiles:
-    LZ77_Tokenizer(file, 16, 4)
+#testFiles = ["a.txt", "alice29.txt", "cp.htm", "Person.java", "progc.c"]
+#for file in testFiles:
+#    LZ77_Tokenizer(file, 16, 4)
+LZ77_Tokenizer("b.txt", 16, 4)
