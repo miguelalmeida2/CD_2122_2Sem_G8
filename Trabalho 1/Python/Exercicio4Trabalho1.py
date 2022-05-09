@@ -18,7 +18,7 @@ def LZ77_Tokenizer(filename: str, window_size: int, buffer_size: int):
         dictionary = inputText[dictIterator:labIterator]
         lab = inputText[labIterator:labIterator+buffer_size]
         offset, length, char, displayOffset = LZ77_search(dictionary, lab)
-        histPosition[offset] += 1
+        histPosition[displayOffset-1] += 1
         histLength[length] += 1
         print("(" + str(displayOffset) + ", " + str(length) + ", " + char + ")")
         outputFile.write("(" + str(displayOffset) + ", " + str(length) + ", " + char + ")" + "\n")
@@ -74,7 +74,6 @@ def LZ77_search(dictionary, lab):
     return best_offset, best_length, buf[search_pointer + best_length], displayOffset
 
 
-#testFiles = ["a.txt", "alice29.txt", "cp.htm", "Person.java", "progc.c"]
-#for file in testFiles:
-#    LZ77_Tokenizer(file, 16, 4)
-LZ77_Tokenizer("b.txt", 16, 4)
+testFiles = ["a.txt", "alice29.txt", "cp.htm", "Person.java", "progc.c"]
+for file in testFiles:
+    LZ77_Tokenizer(file, 16, 4)
