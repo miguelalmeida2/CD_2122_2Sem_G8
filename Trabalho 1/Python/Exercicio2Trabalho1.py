@@ -13,11 +13,13 @@ def string_generator(dictionary, probability, repeat, hist):
     countresults = [0] * len(resultSymbols)
     entropy = 0
     idx = 0
+    # Count each occurence of all individual symbols
     for i in resultSymbols:
         countresults[idx] = result.count(i)
         idx += 1
     for i in result:
         file.write(i + ";")
+    # Calculate entropy of generated symbols
     for i in countresults:
         prob = i / len(result)
         entropy += prob * math.log(1 / prob, 2)
@@ -33,10 +35,13 @@ def pass_gen(min_size, max_size):
         print("Min size is 4")
         return
     size = random.randint(min_size, max_size)
+    # Possible symbols
     letters = list(string.ascii_letters + string.digits + string.punctuation)
+    # Equal probability for each symbol
     probability = [1/len(letters)]*len(letters)
     result = ""
     entropy = 0
+    # Generate passwords until requirements are met
     while not check_password(result):
         result, entropy = string_generator(letters, probability, size, False)
     password = ""
@@ -47,11 +52,14 @@ def pass_gen(min_size, max_size):
 
 def key_gen():
     size = 24
+    # Possible symbols
     letters = list(string.ascii_uppercase + string.digits)
+    # Equal probability por each symbol
     probability = [1 / len(letters)] * len(letters)
     result = ""
     entropy = 0
     key = ""
+    # Generate keys until requirements are met
     while not check_key(result):
         result, entropy = string_generator(letters, probability, size, False)
         key = ""
@@ -69,6 +77,7 @@ def check_password(text):
     lower = False
     digit = False
     symbol = False
+    # Check password conditions
     for item in text:
         if string.ascii_uppercase.__contains__(item):
             upper = True
@@ -85,6 +94,7 @@ def check_password(text):
 
 def check_key(text):
     upper = False
+    # Check key conditions
     for item in text:
         if string.ascii_uppercase.__contains__(item):
             upper = True
@@ -95,22 +105,25 @@ def check_key(text):
 
 keyFile = open(test_path + "generated_keys", 'w')
 passFile = open(test_path + "generated_passwords", 'w')
+# Generate 50 Keys and 50 Passwords
+# Write results and their entropy's to file
 for index in range(0, 50):
     keyword, keyEntropy = key_gen()
     keyFile.write(keyword + "\n" + "Entropy: " + str(keyEntropy) + "\n")
     password00, keyEntropy = pass_gen(12, 24)
     passFile.write(password00 + "\n" + "Entropy: " + str(keyEntropy) + "\n")
 
+# Load test files
 fileNames = open("../CD_TestFiles/Nomes.txt")
 fileSurnames = open("../CD_TestFiles/Apelidos.txt")
 fileLocals = open("../CD_TestFiles/Concelhos.txt")
 fileProfessions = open("../CD_TestFiles/Profissoes.txt")
-
 listNames = fileNames.readlines()
 listSurnames = fileSurnames.readlines()
 listLocals = fileLocals.readlines()
 listProfessions = fileProfessions.readlines()
 
+# Remove spaces
 for i in range(len(listNames)):
     listNames[i] = listNames[i].strip()
 for i in range(len(listSurnames)):
@@ -121,7 +134,9 @@ for i in range(len(listProfessions)):
     listProfessions[i] = listProfessions[i].strip()
 
 file = open("Test Files/Individuos", 'w')
+# Generates 999 unique IDs
 idList = random.sample(range(1, 1000), 999)
+# Generate personal information and attach a unique ID to it
 for i in range(1, 1000):
     name, ignore = string_generator(listNames, [1 / len(listNames)] * len(listNames), random.randint(1, 2), False)
     surname, ignore = string_generator(listSurnames, [1 / len(listSurnames)] * len(listSurnames), random.randint(1, 2), False)
@@ -135,9 +150,12 @@ for i in range(1, 1000):
     file.write(" ; " + residence[0] + " ; " + profession[0])
     file.write("\n")
 
+# Uses the same ID list as above to generate Bet data
 file = open("Test Files/Apostas", 'w')
 numbers = [random.sample(range(1, 50), 5) for m in range(1000)]
 stars = [random.sample(range(1, 11), 2) for m in range(1000)]
+# Generate year and month
+# Day is generated depending on year and month
 for i in range(1, 1000):
     year = random.randint(1990, 2020)
     month = random.randint(1, 12)
@@ -151,7 +169,6 @@ for i in range(1, 1000):
             day = random.randint(1, 31)
         else:
             day = random.randint(1, 30)
-
     file.write(str(idList[random.randint(0, len(idList))-1]) + " ;")
     num = numbers[random.randint(0, len(numbers))-1]
     file.write(" " + str(num) + " ")
