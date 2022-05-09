@@ -3,8 +3,8 @@ def fibonacci(n):
     first = 1
     print(zero)
     print(first)
+    current = first + zero
     previous = first
-    current = first + previous
     for i in range(0, n):
         print(current)
         temp = previous
