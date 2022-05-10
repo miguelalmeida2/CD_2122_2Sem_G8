@@ -16,6 +16,42 @@
 #define FILENAME_SIZE 32
 #define UNARY_MAX_SIZE 64
 
+unsigned char charArrayToByte(char *buffer)
+{
+    unsigned char binaryBuffer = 0;
+    int i = 0;
+
+    while (1)
+    {
+        if (buffer[i] == '0' || buffer[i] == '1')
+        {
+            break;
+        }
+        i++;
+    }
+
+    int size = i + 7;
+    for (; i <= size; i++)
+    {
+        if (buffer[i] == '0')
+        {
+            if (i != size)
+            {
+                binaryBuffer = binaryBuffer << 1;
+            }
+        }
+        else
+        {
+            binaryBuffer++;
+            if (i != size)
+            {
+                binaryBuffer = binaryBuffer << 1;
+            }
+        }
+    }
+    return binaryBuffer;
+}
+
 void encoder(const char *file_name)
 {
     char file_name_encoded[64] = "";
@@ -87,9 +123,9 @@ void encoder(const char *file_name)
         }
         */
     }
-    printf("\n");
-    printf("Soma de symbols = %d e nº de simbolos usados foi = %d\n", n_symbols_by_file, n_symbols_used_by_file);
-    printf("Total de FMP = %f\n", fmp_sum);
+    // printf("\n");
+    // printf("Soma de symbols = %d e nº de simbolos usados foi = %d\n", n_symbols_by_file, n_symbols_used_by_file);
+    // printf("Total de FMP = %f\n", fmp_sum);
 
     // for para a escrita em modo semi-adaptativo no ficheiro saída
     FILE *file_encoded, *file;
@@ -97,9 +133,6 @@ void encoder(const char *file_name)
     file_encoded = fopen(file_name_encoded, "w+b");
 
     // Criar a string modelo para colocar no ficheiro encoded
-    printf("--------------------------------------\n");
-    printf("\t    MODELO!!\n");
-    printf("\n");
     int f = 255;
     for (; fmp[f] != 0; f--)
     {
@@ -107,31 +140,34 @@ void encoder(const char *file_name)
         printf("%c", modelo[f]);
         fputc(modelo[f], file_encoded);
     }
-    fputc(modelo[f + 1], file_encoded);
+    fputc(modelo[++f], file_encoded);
     printf("\n");
-    printf("--------------------------------------\n\t    Texto a Escrever:\n");
-    printf("\n");
+
+    //--------------------------------------------------------
+
     sut = getc(file);
-    unsigned char buffer = 0x0;
-    // char bit = '0';
-    unsigned int bitCounter = 0;
+    unsigned char bufferBinary = 0x0;
+    char buffer[10] = " ";
+    unsigned char bitCounter = 0;
     while (!feof(file))
     {
         if (arr_of_occurances[0][255] == sut)
         {
-            //   bit = '0';
-            buffer = buffer << 1;
+            // bit = '0';
+            // printf("0");
+            strcat(buffer, "0");
             bitCounter++;
             if (bitCounter != 0)
             {
                 if (bitCounter % 8 == 0)
                 {
-                    fwrite(&buffer, 1, 1, file_encoded);
-                    buffer = 0x0;
+                    bufferBinary = charArrayToByte(&buffer);
+                    fwrite(&bufferBinary, 1, 1, file_encoded);
+                    memset(buffer, '\0', sizeof buffer);
+                    bitCounter = 0;
                 }
             }
-            // fputc(bit, file_encoded);
-            printf("%c", sut);
+            // printf("%c", sut);
             sut = getc(file);
         }
         else
@@ -139,40 +175,53 @@ void encoder(const char *file_name)
             for (int c = 255; arr_of_occurances[0][c] != sut; c--)
             {
                 //    bit = '1';
-                buffer = buffer << 1;
-                buffer++;
+                // printf("1");
+                strcat(buffer, "1");
                 bitCounter++;
                 if (bitCounter != 0)
                 {
                     if (bitCounter % 8 == 0)
                     {
-                        fwrite(&buffer, 1, 1, file_encoded);
-                        buffer = 0x0;
+                        bufferBinary = charArrayToByte(&buffer);
+                        fwrite(&bufferBinary, 1, 1, file_encoded);
+                        memset(buffer, '\0', sizeof buffer);
+                        bitCounter = 0;
                     }
                 }
-                // fputc(bit, file_encoded);
             }
             // bit = '0';
-            buffer = buffer << 1;
+            strcat(buffer, "0");
             bitCounter++;
             if (bitCounter != 0)
             {
                 if ((bitCounter % 8) == 0)
                 {
-                    fwrite(&buffer, 1, 1, file_encoded);
-                    buffer = 0x0;
+                    bufferBinary = charArrayToByte(&buffer);
+                    fwrite(&bufferBinary, 1, 1, file_encoded);
+                    memset(buffer, '\0', sizeof buffer);
+                    bitCounter = 0;
                 }
             }
-            // fputc(bit, file_encoded);
+            //  printf("%c", sut);
             sut = getc(file);
-            printf("%c", sut);
         }
     }
-    fclose(file_encoded);
-    fclose(file);
+    while (bitCounter < 7)
+    {
+        // printf("1");
+        strcat(buffer, "1");
+        bitCounter++;
+    }
+    // printf("1");
+    strcat(buffer, "1");
+    bufferBinary = charArrayToByte(&buffer);
+    fwrite(&bufferBinary, 1, 1, file_encoded);
+    memset(buffer, '\0', sizeof buffer);
 
     printf("\n");
-    printf("--------------------------------------\n");
+
+    fclose(file_encoded);
+    fclose(file);
 }
 
 int main()
@@ -187,4 +236,9 @@ int main()
         "progc.c"};
 
     encoder(&filename[0][0]);
+    encoder(&filename[1][0]);
+    encoder(&filename[2][0]);
+    encoder(&filename[3][0]);
+    encoder(&filename[4][0]);
+    encoder(&filename[5][0]);
 }
