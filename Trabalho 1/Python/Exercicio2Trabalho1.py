@@ -133,7 +133,7 @@ for i in range(len(listLocals)):
 for i in range(len(listProfessions)):
     listProfessions[i] = listProfessions[i].strip()
 
-file = open("Test Files/Individuos", 'w')
+file = open("../CD_TestFiles/Individuos", 'w')
 # Generates 999 unique IDs
 idList = random.sample(range(1, 1000), 999)
 # Generate personal information and attach a unique ID to it
@@ -151,7 +151,7 @@ for i in range(1, 1000):
     file.write("\n")
 
 # Uses the same ID list as above to generate Bet data
-file = open("Test Files/Apostas", 'w')
+file = open("../CD_TestFiles/Apostas", 'w')
 numbers = [random.sample(range(1, 50), 5) for m in range(1000)]
 stars = [random.sample(range(1, 11), 2) for m in range(1000)]
 # Generate year and month
