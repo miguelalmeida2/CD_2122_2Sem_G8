@@ -16,13 +16,14 @@
 #define FILENAME_SIZE 32
 #define UNARY_MAX_SIZE 64
 
+
 void decoder(const char *file_name)
 {
-    unsigned char file_name_encoded[64] = "";
+    unsigned char file_name_encoded[32] = "";
     strcat(file_name_encoded, (char *)file_name);
     strcat(file_name_encoded, "_encoded");
 
-    unsigned char file_name_decoded[64] = "";
+    unsigned char file_name_decoded[32] = "";
     strcat(file_name_decoded, (char *)file_name);
     strcat(file_name_decoded, "_decoded");
 
@@ -47,14 +48,18 @@ void decoder(const char *file_name)
         else
         {
             modelo[i] = sut;
+            printf("%c", sut);
             sut = fgetc(file_read);
         }
     }
+    printf("\n");
+    printf("\n");
 
     // Aqui já tenho modelo vou começar a ler o binário e escrever
     //  num ficheiro o descodificado
 
     buffer = fgetc(file_read);
+    unsigned char ahead_buffer = fgetc(file_read);
     unsigned char bit = 128;
     unsigned int bitCounter = 0;
     while (!feof(file_read))
@@ -62,39 +67,57 @@ void decoder(const char *file_name)
         if ((buffer & bit) == 0)
         {
             bitCounter++;
+            bit = bit >> 1;
             if (bitCounter != 0)
             {
                 if (bitCounter % 8 == 0)
                 {
-                    buffer = fgetc(file_read);
+                    buffer = ahead_buffer;
+                    ahead_buffer = fgetc(file_read);
+                    bitCounter = 0;
                     bit = 128;
                 }
             }
             fputc(modelo[0], file_write);
             printf("%c", modelo[0]);
-            bit = bit >> 1;
         }
         else
         {
             int cnt = 0;
             while ((buffer & bit) > 0)
             {
+                bit = bit >> 1;
                 bitCounter++;
                 if (bitCounter != 0)
                 {
                     if (bitCounter % 8 == 0)
                     {
-                        buffer = fgetc(file_read);
+                        buffer = ahead_buffer;
+                        ahead_buffer = fgetc(file_read);
+                        bitCounter = 0;
                         bit = 128;
                     }
                 }
                 cnt++;
-                bit = bit >> 1;
+            }
+            bit = bit >> 1;
+            bitCounter++;
+            if (bitCounter != 0)
+            {
+                if (bitCounter % 8 == 0)
+                {
+                    buffer = fgetc(file_read);
+                    bitCounter = 0;
+                    bit = 128;
+                }
             }
             fputc(modelo[cnt], file_write);
             printf("%c", modelo[cnt]);
         }
     }
+    printf("\n");
+    printf("\n");
+
     fclose(file_read);
     fclose(file_write);
 }
@@ -110,5 +133,5 @@ int main()
         "Person.java",
         "progc.c"};
 
-    decoder(&filename[0][0]);
+    decoder(&filename[2][0]);
 }
