@@ -5,7 +5,7 @@ def fibonacci(n):
     print(first)
     current = first + zero
     previous = first
-    for i in range(0, n):
+    for i in range(1, n):
         print(current)
         temp = previous
         previous = current
@@ -16,7 +16,7 @@ def progression(n, u, r):
     val = u
     for i in range(0, n):
         print(val)
-        val += r
+        val *= r
 
 
 def most_occurrences(file_name):
@@ -38,6 +38,6 @@ def most_occurrences(file_name):
     print(chr(largestidx))
 
 
-most_occurrences("Test Files/Test")
-fibonacci(25)
-progression(10, 10, 5)
+most_occurrences("Test Files/test")
+fibonacci(7)
+progression(5, 1, 2)

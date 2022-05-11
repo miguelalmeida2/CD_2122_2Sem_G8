@@ -24,7 +24,7 @@ def LZ77_Tokenizer(filename: str, window_size: int, buffer_size: int):
         # Count each ocurrence of the values in offset and length
         histPosition[displayOffset-1] += 1
         histLength[length] += 1
-        print("(" + str(displayOffset) + ", " + str(length) + ", " + char + ")")
+        #print("(" + str(displayOffset) + ", " + str(length) + ", " + char + ")")
         outputFile.write("(" + str(displayOffset) + ", " + str(length) + ", " + char + ")" + "\n")
         # Move iterator forward
         labIterator = labIterator + length + 1

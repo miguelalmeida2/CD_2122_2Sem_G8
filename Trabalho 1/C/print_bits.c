@@ -11,7 +11,7 @@
             if(val & 0x80000000){
                 printf("1");
             }
-            printf("0");
+            else printf("0");
             val = val << 1;
         }
         printf("\n");

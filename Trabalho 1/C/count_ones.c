@@ -20,7 +20,7 @@ int main(){
     sut = 32;
     res = count_ones(sut);
     printf("nBits = %d\n", res);
-    sut = 1152;
+    sut = 15;
     res = count_ones(sut);
     printf("nBits = %d\n", res);
 }

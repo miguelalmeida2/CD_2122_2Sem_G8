@@ -102,16 +102,27 @@ def check_key(text):
             return True
     return False
 
+def strength(entropy):
+    if entropy < 2:
+        return "weak"
+    elif entropy < 3.5:
+        return "medium"
+    else:
+        return "strong"
 
-keyFile = open(test_path + "generated_keys", 'w')
-passFile = open(test_path + "generated_passwords", 'w')
-# Generate 50 Keys and 50 Passwords
-# Write results and their entropy's to file
-for index in range(0, 50):
-    keyword, keyEntropy = key_gen()
-    keyFile.write(keyword + "\n" + "Entropy: " + str(keyEntropy) + "\n")
-    password00, keyEntropy = pass_gen(12, 24)
-    passFile.write(password00 + "\n" + "Entropy: " + str(keyEntropy) + "\n")
+# Generate 5 password files and 5 key files
+for fileIdx in range(1, 6):
+    keyFile = open(test_path + "generated_keys" + str(fileIdx) + ".txt", 'w')
+    passFile = open(test_path + "generated_passwords" + str(fileIdx) + ".txt", 'w')
+    # Each file has 50 Keys and 50 Passwords
+    # Write results and their entropy's to file
+    for index in range(0, 50):
+        keyword, keyEntropy = key_gen()
+        keyFile.write(keyword + " => " + "Entropy: " + str(keyEntropy) + " => Strength: " + strength(keyEntropy) + "\n")
+        password00, keyEntropy = pass_gen(12, 24)
+        passFile.write(password00 + " => " + "Entropy: " + str(keyEntropy) + " => Strength: " + strength(keyEntropy) + "\n")
+
+
 
 # Load test files
 fileNames = open("../CD_TestFiles/Nomes.txt")
@@ -133,13 +144,16 @@ for i in range(len(listLocals)):
 for i in range(len(listProfessions)):
     listProfessions[i] = listProfessions[i].strip()
 
-file = open("../CD_TestFiles/Individuos", 'w')
-# Generates 999 unique IDs
-idList = random.sample(range(1, 1000), 999)
+file = open("Test Files/Individuos", 'w')
+# Generates 1499 unique IDs
+idList = random.sample(range(10000000, 99999999), 1500)
 # Generate personal information and attach a unique ID to it
-for i in range(1, 1000):
-    name, ignore = string_generator(listNames, [1 / len(listNames)] * len(listNames), random.randint(1, 2), False)
-    surname, ignore = string_generator(listSurnames, [1 / len(listSurnames)] * len(listSurnames), random.randint(1, 2), False)
+for i in range(1, 1500):
+    nNames = random.randint(1, 2)
+    name, ignore = string_generator(listNames, [1 / len(listNames)] * len(listNames), nNames, False)
+    if nNames == 2: # Exclude names with one FirstName and two surnames
+        nNames = random.randint(1, 2)
+    surname, ignore = string_generator(listSurnames, [1 / len(listSurnames)] * len(listSurnames), nNames, False)
     residence, ignore = string_generator(listLocals, [1 / len(listLocals)] * len(listLocals), 1, False)
     profession, ignore = string_generator(listProfessions, [1 / len(listProfessions)] * len(listProfessions), 1, False)
     file.write(str(idList[i-1]) + " ;")
@@ -151,12 +165,12 @@ for i in range(1, 1000):
     file.write("\n")
 
 # Uses the same ID list as above to generate Bet data
-file = open("../CD_TestFiles/Apostas", 'w')
-numbers = [random.sample(range(1, 50), 5) for m in range(1000)]
-stars = [random.sample(range(1, 11), 2) for m in range(1000)]
+file = open("Test Files/Apostas", 'w')
+numbers = [random.sample(range(1, 50), 5) for m in range(1500)]
+stars = [random.sample(range(1, 11), 2) for m in range(1500)]
 # Generate year and month
 # Day is generated depending on year and month
-for i in range(1, 1000):
+for i in range(1, 1500):
     year = random.randint(1990, 2020)
     month = random.randint(1, 12)
     if month == 2:
