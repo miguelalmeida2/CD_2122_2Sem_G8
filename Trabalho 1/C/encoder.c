@@ -228,12 +228,12 @@ int main()
 {
     // Array de nomes dos ficheiros
     char filename[NUMBER_OF_FILES][FILENAME_SIZE] = {
-        "a.txt",
-        "alice29.txt",
-        "cp.htm",
-        "lena.bmp",
-        "Person.java",
-        "progc.c"};
+        "../CD_TestFiles/a.txt",
+        "../CD_TestFiles/alice29.txt",
+        "../CD_TestFiles/cp.htm",
+        "../CD_TestFiles/lena.bmp",
+        "../CD_TestFiles/Person.java",
+        "../CD_TestFiles/progc.c"};
 
     encoder(&filename[0][0]);
     encoder(&filename[1][0]);
