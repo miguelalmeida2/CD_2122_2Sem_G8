@@ -96,3 +96,5 @@ def LZ77_search(dictionary, lab):
 testFiles = ["a.txt", "alice29.txt", "cp.htm", "Person.java", "progc.c"]
 for file in testFiles:
     LZ77_Tokenizer(file, 16, 4)
+LZ77_Tokenizer("Individuos", 16, 4)
+LZ77_Tokenizer("Apostas", 16, 4)
