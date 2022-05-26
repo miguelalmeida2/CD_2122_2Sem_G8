@@ -1,4 +1,3 @@
-import codecs
 import random
 
 test_path = "../CD_TestFiles/"
@@ -13,20 +12,20 @@ def vernam_cipher(plain_file):
     cipher_text_array = list(['0']*total_char)
     key = generate_one_time_key(total_char)
 
-    for idx in range(0, total_char-1):
+    for idx in range(0, total_char):
         cipher_text_array[idx] = chr(ord(plain_text_array[idx]) ^ key[idx])
 
     return ''.join(cipher_text_array), key
 
 
 def vernam_decipher(cipher_file, key):
-    cipher_text = open(cipher_file).read()
+    cipher_text = open(cipher_file, encoding='utf-8').read()
     cipher_text_array = list(cipher_text)
     total_char = len(cipher_text_array)
 
     plain_text_array = list(['0'] * total_char)
 
-    for idx in range(0, total_char - 1):
+    for idx in range(0, total_char):
         plain_text_array[idx] = chr(ord(cipher_text_array[idx]) ^ key[idx])
 
     return ''.join(plain_text_array)
@@ -40,11 +39,13 @@ def generate_one_time_key(size):
 
 
 cipher, key = vernam_cipher(test_path + "a.txt")
-cipher_file = open(output_path + "a.txt.vernam", 'w')
+cipher = bytes(cipher, 'utf-8')
+cipher_file = open(output_path + "a.txt.vernam", 'wb')
 cipher_file.write(cipher)
 cipher_file.close()
 
-plain = vernam_decipher(cipher, key)
-plain_file = open(output_path + "a.txt.plain", 'w')
+plain = vernam_decipher(output_path + "a.txt.vernam", key)
+plain = bytes(plain, 'utf-8')
+plain_file = open(output_path + "a.txt.plain", 'wb')
 plain_file.write(plain)
 plain_file.close()
