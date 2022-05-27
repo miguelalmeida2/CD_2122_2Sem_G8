@@ -5,7 +5,7 @@ import math
 #USEFUL DATA
 ASCSII_SIZE = 255
 local_path = "../CD_TestFiles/"
-test_path = "Test_Files/"
+test_path = "../Test_Output/"
 CEASER_DISTANCE = 2
 
 #Implementations
