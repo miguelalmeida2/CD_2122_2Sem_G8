@@ -10,6 +10,7 @@ from PIL import Image
 local_path = "../CD_TestFiles/"
 test_path = "../Test_Output/"
 
+
 def bmpDecipher(file):
     path = test_path + file
     # taking encryption key as input
@@ -34,7 +35,7 @@ def bmpDecipher(file):
 
 def bmpCipher(file):
     path = local_path + file
-# taking encryption key as input
+    # taking encryption key as input
     key = 37
     # open file for reading purpose
     fin = open(path, 'rb')
@@ -53,5 +54,6 @@ def bmpCipher(file):
     fin.write(image)
     fin.close()
 
+
 bmpCipher("lena.bmp")
-#bmpDecipher("lena.bmp")
+# bmpDecipher("lena.bmp")
