@@ -59,8 +59,8 @@ plain = bytes(plain, 'utf-8')
 with open(output_path + "a.txt.plain", 'wb') as output:
     output.write(plain)
 
-Ent.entropy(output_path + "a.txt.vernam")
-Ent.entropy(output_path + "a.txt.plain")
+Ent.entropy_calculation(output_path + "a.txt.vernam")
+Ent.entropy_calculation(output_path + "a.txt.plain")
 
 # ------------------------------ Test with alice29.txt ------------------------------
 
@@ -85,6 +85,6 @@ while True:
     except IndexError:
         pass
     else:
-        Ent.entropy(output_path + "alice29.txt.vernam")
-        Ent.entropy(output_path + "alice29.txt.plain")
+        Ent.entropy_calculation(output_path + "alice29.txt.vernam")
+        Ent.entropy_calculation(output_path + "alice29.txt.plain")
         break

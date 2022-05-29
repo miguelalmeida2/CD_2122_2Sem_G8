@@ -1,7 +1,7 @@
 import math
 
 
-def entropy(filename):
+def entropy_calculation(filename):
     with open(filename, "rb") as file:
         counters = {byte: 0 for byte in range(2 ** 8)}
 

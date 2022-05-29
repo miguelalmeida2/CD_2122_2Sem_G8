@@ -1,14 +1,7 @@
-import codecs
-import string
-import math
-import struct
-import matplotlib.pyplot as plt
-import numpy as np
-from PIL import Image
-
 # USEFUL DATA
 local_path = "../CD_TestFiles/"
 test_path = "../Test_Output/"
+
 
 def bmpDecipher(file):
     path = test_path + file
@@ -52,6 +45,7 @@ def bmpCipher(file):
     # writing encrypted data in image
     fin.write(image)
     fin.close()
+
 
 bmpCipher("lena.bmp")
 #bmpDecipher("lena.bmp")
