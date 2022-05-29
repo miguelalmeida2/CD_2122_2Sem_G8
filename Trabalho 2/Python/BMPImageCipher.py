@@ -27,7 +27,7 @@ def bmpDecipher(file):
 
 def bmpCipher(file):
     path = local_path + file
-# taking encryption key as input
+    # taking encryption key as input
     key = 37
     # open file for reading purpose
     fin = open(path, 'rb')
@@ -48,4 +48,4 @@ def bmpCipher(file):
 
 
 bmpCipher("lena.bmp")
-#bmpDecipher("lena.bmp")
+# bmpDecipher("lena.bmp")
