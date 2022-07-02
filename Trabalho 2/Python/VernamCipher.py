@@ -1,5 +1,6 @@
 import random
 import EntropyCalculator as Ent
+import Histogram as Hist
 
 test_path = "../CD_TestFiles/"
 output_path = "../Test_Output/"
@@ -51,7 +52,6 @@ cipher = bytes(cipher, 'utf-8')
 # Writes utf-8 encoded cipher text to file
 with open(output_path + "a.txt.vernam", 'wb') as output:
     output.write(cipher)
-
 plain = vernam_decipher(output_path + "a.txt.vernam", key)
 # Encodes the plain text in utf-8
 plain = bytes(plain, 'utf-8')
@@ -59,8 +59,10 @@ plain = bytes(plain, 'utf-8')
 with open(output_path + "a.txt.plain", 'wb') as output:
     output.write(plain)
 
-Ent.entropy_calculation(output_path + "a.txt.vernam")
 Ent.entropy_calculation(output_path + "a.txt.plain")
+Hist.histogram(output_path + "a.txt.plain")
+Ent.entropy_calculation(output_path + "a.txt.vernam")
+Hist.histogram(output_path + "a.txt.vernam")
 
 # ------------------------------ Test with alice29.txt ------------------------------
 
@@ -85,6 +87,8 @@ while True:
     except IndexError:
         pass
     else:
-        Ent.entropy_calculation(output_path + "alice29.txt.vernam")
         Ent.entropy_calculation(output_path + "alice29.txt.plain")
+        Hist.histogram(output_path + "alice29.txt.plain")
+        Ent.entropy_calculation(output_path + "alice29.txt.vernam")
+        Hist.histogram(output_path + "alice29.txt.vernam")
         break

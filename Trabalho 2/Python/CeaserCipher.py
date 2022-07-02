@@ -1,4 +1,6 @@
 import codecs
+import EntropyCalculator as Ent
+import Histogram as Hist
 
 # USEFUL DATA
 ASCII_SIZE = 255
@@ -41,5 +43,13 @@ def caesar_decipher(file):
 # Execution
 caesar_cipher("a.txt")
 caesar_decipher("a.txt")
+Ent.entropy_calculation(test_path + "a.txt.plain")
+Hist.histogram(test_path + "a.txt.plain")
+Ent.entropy_calculation(test_path + "a.txt_encoded")
+Hist.histogram(test_path + "a.txt_encoded")
 caesar_cipher("alice29.txt")
 caesar_decipher("alice29.txt")
+Ent.entropy_calculation(test_path + "alice29.txt.plain")
+Hist.histogram(test_path + "alice29.txt.plain")
+Ent.entropy_calculation(test_path + "alice29.txt_encoded")
+Hist.histogram(test_path + "alice29.txt_encoded")
