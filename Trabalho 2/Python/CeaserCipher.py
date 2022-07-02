@@ -40,16 +40,24 @@ def caesar_decipher(file):
     fileWrite.close()
 
 
+key_entropy = 0
 # Execution
 caesar_cipher("a.txt")
 caesar_decipher("a.txt")
-Ent.entropy_calculation(test_path + "a.txt.plain")
+plain_entropy = Ent.entropy_calculation(test_path + "a.txt.plain")
 Hist.histogram(test_path + "a.txt.plain")
-Ent.entropy_calculation(test_path + "a.txt_encoded")
+cipher_entropy = Ent.entropy_calculation(test_path + "a.txt_encoded")
 Hist.histogram(test_path + "a.txt_encoded")
+
+print("Key Mistake: " + str(key_entropy + plain_entropy - cipher_entropy))
+print("Message Mistake: " + str(plain_entropy + key_entropy - cipher_entropy))
+
 caesar_cipher("alice29.txt")
 caesar_decipher("alice29.txt")
-Ent.entropy_calculation(test_path + "alice29.txt.plain")
+plain_entropy = Ent.entropy_calculation(test_path + "alice29.txt.plain")
 Hist.histogram(test_path + "alice29.txt.plain")
-Ent.entropy_calculation(test_path + "alice29.txt_encoded")
+cipher_entropy = Ent.entropy_calculation(test_path + "alice29.txt_encoded")
 Hist.histogram(test_path + "alice29.txt_encoded")
+
+print("Key Mistake: " + str(key_entropy + plain_entropy - cipher_entropy))
+print("Message Mistake: " + str(plain_entropy + key_entropy - cipher_entropy))

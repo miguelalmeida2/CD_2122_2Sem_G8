@@ -15,3 +15,5 @@ def entropy_calculation(filename):
         entropy = -sum(probability * math.log2(probability) for probability in probabilities if probability > 0)
 
         print(filename[len("../Test_Output/"):] + ": " + str(entropy))
+
+        return entropy
